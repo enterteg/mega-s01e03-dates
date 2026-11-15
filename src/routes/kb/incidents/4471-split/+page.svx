@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 split · three date problems, not one'
 owner: enterteg
-status: open
+status: closed
 reviewed: 2026-11-15
 signature: enterteg
 ---
@@ -22,7 +22,19 @@ closes one of them.
 #4471 by subject; file them under the problem they show.
 </Callout>
 
+## Where they stand
+
+Engineering closed #4471 on 05 Oct:
+
+| problem | outcome |
+| --- | --- |
+| `parser` | **fixed**: `fix(dates): parse dd/mm for eu locales` |
+| `hint` | **won't fix**: booking-v3 form retired |
+| `one-day` | not in the update; still open |
+
 ## The problems
+
+The `one-day` reports are also counted under `parser`, where the desk files them by tenant.
 
 <ProblemTable ticket={4471} issues={{ parser: 'https://github.com/enterteg/mega-s01e03-dates/issues/1', hint: 'https://github.com/enterteg/mega-s01e03-dates/issues/2', 'one-day': 'https://github.com/enterteg/mega-s01e03-dates/issues/3' }} />
 

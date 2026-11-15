@@ -35,9 +35,12 @@ export function splitTicket(
   const merged = all.filter((r) => r.mergedInto === ticket);
   const unique = uniqueById(merged);
   const by = new Map<Problem, Report[]>();
+  // Counted the desk's way: every report under its tenant cause (as CauseTable files it). The
+  // one-day reports are also listed as their own problem, so that row overlaps `parser`.
   for (const r of unique) {
-    const p = problemOf(r, tenantOf(r), oneDay);
-    by.set(p, [...(by.get(p) ?? []), r]);
+    const c: Problem = causeOf(r, tenantOf(r)) ?? 'unplaced';
+    by.set(c, [...(by.get(c) ?? []), r]);
+    if (problemOf(r, tenantOf(r), oneDay) === 'one-day') by.set('one-day', [...(by.get('one-day') ?? []), r]);
   }
   const groups = [...by.entries()]
     .map(([problem, rs]) => {
