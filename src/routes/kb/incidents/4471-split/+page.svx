@@ -4,7 +4,7 @@ title: '#4471 split · three date problems, not one'
 owner: enterteg
 status: closed
 reviewed: 2026-11-15
-signature: enterteg
+signature: 'v1.eyJzdWIiOiI2NzM0IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTQ3MzkyODAsImV4cCI6MTc5NDgyNTY4MH0.tfvK2PjpE22IXY6xVEKx_w7cgO8b-IaqaQyTWwZxcJA'
 ---
 
 <script>
