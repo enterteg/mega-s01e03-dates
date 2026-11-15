@@ -1,0 +1,56 @@
+---
+layout: runbook
+title: '#4471 split · three date problems, not one'
+owner: enterteg
+status: open
+reviewed: 2026-11-15
+signature: enterteg
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one bug, one fix queued. Read by tenant and by the
+way each report came in, its reports describe three different problems. The queued parser fix
+closes one of them.
+
+<Callout kind="warn">
+#4471 is not one issue. Each problem below has its own ticket. Do not merge new date reports into
+#4471 by subject; file them under the problem they show.
+</Callout>
+
+## The problems
+
+<ProblemTable ticket={4471} issues={{ parser: 'https://github.com/enterteg/mega-s01e03-dates/issues/1', hint: 'https://github.com/enterteg/mega-s01e03-dates/issues/2', 'one-day': 'https://github.com/enterteg/mega-s01e03-dates/issues/3' }} />
+
+### `parser`: the shared parser reads dates month first
+
+Every tenant in #4471 writes the day first. The shared parser reads every date month first, so
+7 April comes out as 4 July. This is the bug the queued fix is for. It covers every report from
+the app, by email, and from booking-v2 forms.
+
+### `hint`: booking-v3 tells day-first tenants to type month first
+
+booking-v3 prints `MM/DD/YYYY` under its date field. People type what the hint says, and the form
+then reads the date the tenant's way, day first. The parser fix does not touch this: the form
+needs its hint to follow the tenant's locale. It covers form reports from tenants on booking-v3.
+
+### `one-day`: bookings move by one day
+
+Tuesday 12 May shows as Monday 11 May; one meeting lands on Tuesday in Lisbon and Monday in
+Toronto; an invite arrives before the booking was made. Month and day are not swapped here, so
+the parser fix will not help. These look like a time zone or daylight-saving bug and need their
+own investigation. The desk had already noted them (`desk-notes.json`).
+
+## How it got merged
+
+- [Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges on subject line. Every one of these
+  reports says some version of "wrong date", so three bugs shared one ticket.
+- Intake's tag (`meta.intakeTag`) guesses from the reporter's browser. It does not say which problem a
+  report is; tenant and way in do.
+- The ticket export overlaps: some reports are listed twice. Count each id once.
+
+<RenderStamp {signature} />
